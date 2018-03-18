@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmpManagement.View.LoginView">
+    <StackLayout Orientation="Vertical" BackgroundColor="White"  Spacing="15">
+        <StackLayout Orientation="Vertical" BackgroundColor="Black" HeightRequest="100"  >
+            <Label Text="Welcome" TextColor="White" FontAttributes="Italic" FontSize="40" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Margin="0,30,0,30"></Label>
+        </StackLayout>
+        <StackLayout Orientation="Vertical" Padding="20" Spacing="15">
+            <BoxView HeightRequest="10" />
+            <Frame BackgroundColor="White" HasShadow="False">
+                <StackLayout Orientation="Vertical" Spacing="5">
+                    <Image HorizontalOptions="Center" WidthRequest="150"  HeightRequest="150" Source="user.png" />
+
+                    <Label Text="Name:" TextColor="Black" FontAttributes="Bold" FontSize="20" ></Label>
+                    <Entry x:Name="Login" Text="{Binding Login}" Placeholder="Enter your Name ..." PlaceholderColor="Gray" TextColor="Black"  />
+                    <Label Text="ID:" TextColor="Black" FontAttributes="Bold" FontSize="20" ></Label>
+                    <Entry x:Name="Password" Text="{Binding Password}" Placeholder="Enter your Id Name ..." PlaceholderColor="Gray" TextColor="Black" />
+
+                </StackLayout>
+            </Frame>
+            <StackLayout>
+                <Button Command="{Binding SubmitCommand}" Text="Sign In" TextColor="White" FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand" BackgroundColor="Black" />
+                <Button Command="{Binding RegistrationCommand}" Text="Registration" TextColor="White" FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand" BackgroundColor="Black" />
+            </StackLayout>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

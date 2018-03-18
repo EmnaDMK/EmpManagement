@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel ="clr-namespace:EmpManagement.ViewModel" 
+             x:Class="EmpManagement.View.EmployeeView">
+    <StackLayout>
+        <StackLayout>
+            <Button Text="+" HorizontalOptions="End" WidthRequest="50" Command="{Binding OnAddCommand}" ></Button>
+            <!--<Button Text="Up" HorizontalOptions="End" WidthRequest="50" Command="{Binding OnUpCommand}"></Button>-->
+            <!--<Button Text="Delete" Clicked="ButtonDel_OnClicked"></Button>-->
+        </StackLayout>
+
+        <StackLayout Orientation="Vertical"   Margin="10,10,10,0" VerticalOptions="FillAndExpand" >
+
+            <ListView x:Name="list"  HasUnevenRows="True"   VerticalOptions="FillAndExpand"   >
+
+                <ListView.ItemTemplate>
+
+                    <DataTemplate x:Name="ItemTemplate" x:Key="ItemTemplate">
+
+                        <ViewCell>
+
+                            <StackLayout Orientation="Vertical"  BackgroundColor="White" >
+
+                                <StackLayout Orientation="Horizontal" >
+
+                                    <StackLayout Margin="5" HorizontalOptions="FillAndExpand"
+
+                                                 Orientation="Vertical">
+                                        <Label Text="{Binding Id}"
+
+                                               TextColor="#44454a" 
+
+                                               FontSize="18" />
+
+                                        <Label x:Name="Name" Text="{Binding Name}"
+
+                                               TextColor="#44454a" 
+
+                                               FontSize="18" />
+
+                                        <Label x:Name="Gsm" Text="{Binding GSM}"
+
+                                               TextColor="#44454a"
+
+                                               FontSize="15"  />
+
+                                        <Image Source="Navigate.png"  HorizontalOptions="EndAndExpand" VerticalOptions="FillAndExpand" WidthRequest="50">
+
+                                            <Image.GestureRecognizers>
+
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.TapCommand , Source={x:Reference list} }" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                                <!--<TapGestureRecognizer Command="{Binding OnAddCommand}"></TapGestureRecognizer>-->
+                                        <!--<Button Text=">" HorizontalOptions="End" WidthRequest="50" Command="{Binding OnUpCommand}" VerticalOptions="FillAndExpand"></Button>-->
+                                            </Image.GestureRecognizers>
+
+                                        </Image>
+
+                                        <Image Source="close.png" HorizontalOptions="EndAndExpand" WidthRequest="30">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.RemoveCommand, Source = {x:Reference list}}" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+
+
+
+                                    </StackLayout>
+
+                                </StackLayout>
+
+                            </StackLayout>
+
+                        </ViewCell>
+
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage> 
