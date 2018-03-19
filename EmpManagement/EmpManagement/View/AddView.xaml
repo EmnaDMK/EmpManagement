@@ -5,16 +5,16 @@
     <StackLayout>
         <StackLayout Spacing="20" Padding="15">
 
-            <Label Text="Name" FontSize="Small" TextColor="Black"/>
+            <Label Text="Name" TextColor="Black" FontSize="18" FontFamily="Comic Sans MS" FontAttributes="Italic"/>
 
             <Entry Text="{Binding Name}" FontSize="Small"  />
 
-            <Label Text="GSM" FontSize="Small" TextColor="Black"/>
+            <Label Text="GSM" TextColor="Black" FontSize="18" FontFamily="Comic Sans MS" FontAttributes="Italic"/>
 
             <Entry  Text="{Binding GSM}" FontSize="Small" Margin="0"  />
 
 
-            <Button Text="Save" Command="{Binding SaveCommand}" BorderColor="Black"></Button>
+            <Button Text="Save" Command="{Binding SaveCommand}" BorderColor="Black" TextColor="White" FontSize="18" FontFamily="Comic Sans MS" FontAttributes="Italic" BackgroundColor="Black" ></Button>
 
         </StackLayout>
 

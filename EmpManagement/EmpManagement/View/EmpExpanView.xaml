@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model1="clr-namespace:EmpManagement.Model;assembly=EmpManagement"
+             xmlns:viewModel="clr-namespace:EmpManagement.ViewModel;assembly=EmpManagement"
+             x:Class="EmpManagement.View.EmpExpanView">
+    <!--<ContentPage.BindingContext>
+        <viewModel:EmployeeViewModel></viewModel:EmployeeViewModel>
+    </ContentPage.BindingContext>-->
+<StackLayout>
+    <StackLayout>
+            <Button Text="+" HorizontalOptions="End"  Command="{Binding OnAddCommand}"  HeightRequest="50" WidthRequest="50" FontAttributes="Bold" TextColor="White" BackgroundColor="DarkRed" FontSize="20"></Button>
+       
+        </StackLayout>
+    <StackLayout Orientation="Vertical"   Margin="10,10,10,0"  BackgroundColor="White" HeightRequest="100">
+
+
+            <SearchBar x:Name="MainSearchBar"   Text="{Binding SearchValue}"></SearchBar>
+
+    </StackLayout>
+
+
+        <ListView x:Name="list"  HasUnevenRows="True"   VerticalOptions="FillAndExpand"  ItemTapped="List_OnItemTapped" >
+
+        <ListView.ItemTemplate>
+
+            <DataTemplate x:Name="ItemTemplate" x:Key="ItemTemplate">
+
+                <ViewCell>
+
+                    <StackLayout Orientation="Vertical"  BackgroundColor="White" >
+
+                        <StackLayout Orientation="Horizontal" >
+
+                            <StackLayout Margin="5" HorizontalOptions="FillAndExpand"
+
+                                                 Orientation="Vertical">
+                                <StackLayout  >
+                                        <Label Text="{Binding Id}"  TextColor="Black" FontSize="18" FontFamily="Comic Sans MS" FontAttributes="Italic" />
+
+                                <Label x:Name="Name" Text="{Binding Name}" TextColor="Black"   FontSize="18" />
+
+                                <Label x:Name="Gsm" Text="{Binding GSM}" TextColor="Black" FontSize="15"  />
+                                    <StackLayout IsVisible="{Binding IsVisible} "   Orientation="Horizontal"  Margin="0,0,80,0" >
+
+                                            <Button Text="Details"  Command="{Binding Path=BindingContext.TapCommand, Source = {x:Reference list}}" CommandParameter="{Binding}"
+
+                                            WidthRequest="110"
+
+                                                FontSize="15" 
+
+                                                BackgroundColor="HotPink"  
+
+                                                TextColor="White"/>
+
+                                            <Button Text="Edit"  Command="{Binding Path=BindingContext.TapCommand, Source = {x:Reference list}}" CommandParameter="{Binding}"
+
+                                                WidthRequest="110"
+
+                                                FontSize="15" 
+
+                                                BackgroundColor="DarkCyan"  
+
+                                                TextColor="White"/>
+
+                                            <Button Text="Remove"  Command="{Binding Path=BindingContext.TapCommandR, Source = {x:Reference list}}" CommandParameter="{Binding}"
+
+                                                WidthRequest="110"
+
+                                                FontSize="15" 
+
+                                                BackgroundColor="ForestGreen"  
+
+                                                TextColor="White" />
+
+                                    </StackLayout>
+                                    </StackLayout>
+
+                            </StackLayout>
+
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </ViewCell>
+
+            </DataTemplate>
+
+        </ListView.ItemTemplate>
+
+    </ListView>
+</StackLayout>
+</ContentPage>

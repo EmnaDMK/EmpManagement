@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using EmpManagement.Model;
 using EmpManagement.View;
+using Root.Services.Sqlite;
 using Xamarin.Forms;
 
 namespace EmpManagement.ViewModel
 {
-  public  class EmployeeViewModel : BaseViewModel
+    public class EmployeeViewModel : BaseViewModel
     {
 
 
@@ -19,10 +21,43 @@ namespace EmpManagement.ViewModel
         #region Fields
 
         //public INavigation navigation;
-
+      
         public Command<Object> _tapCommand;
-        public Command<Object> _RemoveCommand;
+        public Command<Object> _tapCommandR;
+        public Command<Object> _tapSearch;
+        private Employee Old_Employee;
         public ICommand LoadItemsCommand { get; set; }
+
+        public void ShoworHiddenEmployee(Employee employee)
+        {
+            if (Old_Employee == employee)
+            {
+                employee.IsVisible = !employee.IsVisible;
+
+                UpdateEmp(employee);
+            }
+            else
+            {
+                if (Old_Employee != null)
+                {
+                    Old_Employee.IsVisible = false;
+
+                    UpdateEmp(Old_Employee);
+                }
+                employee.IsVisible = !employee.IsVisible;
+
+                UpdateEmp(employee);
+            }
+
+            Old_Employee = employee;
+        }
+
+        private void UpdateEmp(Employee employee)
+        {
+            var index = Employees.IndexOf(employee);
+            Employees.Remove(employee);
+            Employees.Insert(index, employee);
+        }
 
 
         #endregion
@@ -41,37 +76,24 @@ namespace EmpManagement.ViewModel
 
         }
 
-        public Command<Object> RemoveCommand
+        
+        public Command<Object> TapCommandR
 
         {
 
-            get { return _RemoveCommand; }
+            get { return _tapCommandR; }
 
-            set { _RemoveCommand = value; }
+            set { _tapCommandR = value; }
 
         }
-        
+
+     
+
+     
+
         #endregion
 
-        private bool _isRefreshing = false;
 
-        public bool IsRefreshing
-
-        {
-
-            get { return _isRefreshing; }
-
-            set
-
-            {
-
-                _isRefreshing = value;
-
-                OnPropertyChanged(nameof(IsRefreshing));
-
-            }
-
-        }
 
         #region Constructor with parameters
 
@@ -86,11 +108,14 @@ namespace EmpManagement.ViewModel
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             _nav = nav;
-
+       
             _tapCommand = new Command<Object>(OnTapped);
+            _tapCommandR = new Command<Object>(OnRemove);
+         
 
-            _RemoveCommand = new Command<Object>(OnRemove);
-            CurrentPage = DependencyInject<View.EmployeeView>.Get();
+
+            CurrentPage = DependencyInject<View.EmpExpanView>.Get();
+         
             OpenPage();
 
 
@@ -99,7 +124,7 @@ namespace EmpManagement.ViewModel
 
 
 
-     public   async Task ExecuteLoadItemsCommand()
+        public async Task ExecuteLoadItemsCommand()
 
         {
             try
@@ -118,7 +143,7 @@ namespace EmpManagement.ViewModel
 
                 }
 
-                IsRefreshing = true;
+
 
                 int nb = EmployeeList.Count;
 
@@ -154,7 +179,8 @@ namespace EmpManagement.ViewModel
                 EmployeeList.Add(e);
             }
         }
-        public  async void ExecuteLoadEmployeeCommand()
+
+        public async void ExecuteLoadEmployeeCommand()
 
         {
 
@@ -199,9 +225,10 @@ namespace EmpManagement.ViewModel
             _nav = nav;
 
             _tapCommand = new Command<Object>(OnTapped);
-            _RemoveCommand = new Command<Object>(OnRemove);
+           
+
             EmployeeList = ctv;
-            CurrentPage = DependencyInject<View.EmployeeView>.Get();
+            CurrentPage = DependencyInject<View.EmpExpanView>.Get();
 
             OpenPage();
 
@@ -236,15 +263,25 @@ namespace EmpManagement.ViewModel
 
         }
 
+
         public void OnRemove(Object o)
+
         {
-            if (o != null)
-            {
-                var employee = o as Employee;
-                EmployeeList.Remove(employee);
-                DataStoreEmp.DeleteAsync(emp);
-            }
+
+            var nextPage = new DetailView();
+
+            nextPage.BindingContext = o;
+
+            //_nav.PushAsync(nextPage);
+
+            //emp=new Employee();
+
+            var page = DependencyService.Get<ViewModel.DeleteViewModel>() ?? new DeleteViewModel(o, _nav);
+
+
         }
+  
+
 
         public Command<Employee> OnAddCommand
 
@@ -255,9 +292,9 @@ namespace EmpManagement.ViewModel
                 return new Command<Employee>((emp) =>
 
                 {
-                    
-                    var page = DependencyService.Get<ViewModel.AddNewItem>() ?? new AddNewItem(_nav );
-                    
+
+                    var page = DependencyService.Get<ViewModel.AddNewItem>() ?? new AddNewItem(_nav);
+
 
                 });
             }
@@ -287,6 +324,30 @@ namespace EmpManagement.ViewModel
         //var page = DependencyService.Get<ViewModel.UpdateViewModel>() ?? new UpdateViewModel(_nav);
 
         //});
+        
+        public string searchvalue;
+
+        public string SearchValue
+
+        {
+
+            get { return searchvalue; }
+
+            set
+
+            {
+                searchvalue = value;
+
+                OnPropertyChanged();
+         
+
+                IEnumerable<Employee> searchresult = EmployeeList.Where(x => x.Name.ToLower().Contains(SearchValue.ToLower()));
+
+                var l = CurrentPage.FindByName<ListView>("list");
+                l.ItemsSource = searchresult;
+            }
+
+        }
 
 
         //public Command<Employee> OnUpCommand
@@ -306,6 +367,7 @@ namespace EmpManagement.ViewModel
         //    }
         //}
 
+    
 
     }
 }

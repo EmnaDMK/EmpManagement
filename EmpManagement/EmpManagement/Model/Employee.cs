@@ -15,6 +15,6 @@ namespace EmpManagement.Model
         public string Name { get; set; }
         public string GSM { get; set; }
 
-
+        public bool IsVisible { get; set; }
     }
 }

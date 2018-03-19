@@ -15,6 +15,7 @@ namespace EmpManagement.View
 		public LoginView ()
 		{
 			InitializeComponent ();
+		
 		}
 	}
 }

@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="EmpManagement.View.DetailView">
+             x:Class="EmpManagement.View.DetailViewRem">
     <StackLayout Orientation="Vertical">
         <StackLayout Orientation="Horizontal">
-         
+
             <StackLayout Orientation="Vertical">
                 <Entry Text="{Binding Id}"></Entry>
                 <Entry x:Name=" Name" Text="{Binding Name}"></Entry>
                 <Entry Text="{Binding GSM}"></Entry>
-                <Button Text="Update" Command="{Binding SaveCommandUp}"></Button>
-               
+              
+                <Button Text="Remove" Command="{Binding RemoveUp}"></Button>
                 <!--<Button Text="Delete" Command="{Binding DeleteCommand}"></Button>-->
             </StackLayout>
         </StackLayout>
